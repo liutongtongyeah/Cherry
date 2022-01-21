@@ -3,6 +3,7 @@ import Products from './components/Products'
 import Login from './components/Login'
 import Register from './components/Register'
 import Order from './components/Order'
+import Home from './components/Home'
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
 
 import {useEffect, useState} from 'react'
@@ -38,8 +39,13 @@ function App() {
               <Login />
             </>
           }/>
-          <Route exact path='/' element={ user ?
-            <Navigate to = '/products' /> : <Navigate to = '/login' />
+          <Route exact path='/home' element = {
+            <>
+              <Home />
+            </>
+          }/>
+          <Route exact path='/' element={
+            <Home />
           }/>
           <Route exact path = '/Register' element = {
             <Register />
@@ -48,14 +54,15 @@ function App() {
             <>
               <Header />
               <Products />
-            </> : <Login />
+            </> : 
+              <Home />
           } />
           <Route path = '/Order' element = { user ?
             <>
               <Header />
               <Order />
             </> :
-            <Login />
+            <Home />
           } />
         </Routes>
       </div>

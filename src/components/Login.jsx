@@ -56,19 +56,20 @@ const Login = () => {
   }
 
   return (
-    <>
+    <div className='myLogin'>
       {
       // location.pathname === '/login' && 
       (
         <div className='mycontainer'>
-          <form onSubmit={handleSubmit} id='myForm' className='myform'>
+          <form onSubmit={handleSubmit} id='myForm' className='myform' autoComplete='off'>
+            <h1 className='title'>Login</h1>
             <div className='field'>
-              <label htmlFor='name' className='mylabel'>Username: </label>
-              <input type='text' name='name' id='name' placeholder='username' required></input>
+              <label htmlFor='name' className='mylabel'>Username </label>
+              <input type='text' name='name' id='name' className='myinput' required></input>
             </div>
             <div className='field'>
-              <label htmlFor='pwd' className='mylabel'>Password: </label>
-              <input type='password' name='password' id='password' placeholder='password' required></input>
+              <label htmlFor='pwd' className='mylabel'>Password </label>
+              <input type='password' name='password' id='password' className='myinput' required></input>
             </div>
             <div className='mycheckbox'>
               <input type='checkbox' id='rememberme' name='checkbox' onChange={handleCheckbox}></input>
@@ -83,7 +84,7 @@ const Login = () => {
           </form>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

@@ -15,13 +15,14 @@ code {
   min-height: 300px;
 }
 .navbar-bg{
-  background-color:rgb(216, 173, 116);
+  font-size: 16px;
+  background-color: #db5150;
   color:black;
 }
 .my-navbar-brand{
   color:white;
   text-decoration:none;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 500;
   margin:0 30px 0 2%;
 }
@@ -36,43 +37,71 @@ code {
 .my-nav-link:hover{
   color:white;
 }
+.myLogin{
+  position:absolute;
+  height:100%;
+  width: 100%;
+  background-image: url('../public/cherry1.jpg');
+  background-size: cover;
+}
 .mycontainer{
   text-align: center;
-  /* padding:10px 15px;
-  margin: 100px 30% auto 30%; */
-  margin-top: 160px;
+  margin-top: 8%;
 }
 .myform{
+  background-color: rgba(255, 255, 255, 0.65);
   display: inline-block;
-  width:300px;
+  width:340px;
   border: 1px solid rgb(216, 173, 116);
   border-radius: 10px;
 }
+.title{
+  margin: 40px auto;
+  font-family: 'Courgette', cursive;
+  font-size: 30px;
+}
 .field{
-  margin:20px auto;
+  margin:18px auto;
 }
 .mylabel{
-  margin: 0 auto 10px 55px;
+  margin: 0 auto 0px 75px;
   display: block;
   text-align: left;
+  font-size: 18px;
+}
+.myinput{
+  border: none;
+  border-bottom: 1px solid black;
+  background: none;
+  outline:none;
+  font-size: 16px;
+}
+myinput:-webkit-autofill,
+myinput:-webkit-autofill:hover, 
+myinput:-webkit-autofill:focus, 
+myinput:-webkit-autofill:active{
+  /* -webkit-background: none; */
 }
 .mycheckbox{
   text-align: left;
-  font-size: 14px;
-  padding-left: 56px;
+  font-size: 16px;
+  padding-left: 70px;
 }
 .mybutton{
-  margin:10px auto;
+  margin:30px auto;
   text-align: center;
 }
 .btn{
-  width:185px;
-  background-color: goldenrod;
+  width:200px;
+  background-color: #db5150;
+  color:white;
+  font-size: 18px;
+}
+.btn:hover{
   color:white;
 }
 .link1{
   display: block;
-  /* color: #e6e6e6; */
   color:#c8c8c8cc;
   text-decoration: none;
 }
@@ -84,16 +113,49 @@ code {
   text-decoration: underline;
 }
 .paragraph1{
+  margin-bottom: 30px;
   padding-right: 5px;
   font-size: 14px;
   display: inline-block;
-  color:#e6e6e6;
+  color:black;
 }
 .link2{
   font-size: 14px;
-  color:rgb(216, 173, 116);
+  color:#db5150;
   text-decoration: none;
 }
 link2:hover{
   text-decoration: none;
+}
+.home{
+  position: absolute;
+  width:100%;
+  height: 100%;
+  /* color:#db5150; */
+  text-align: center;
+  background:url('../public/istockphoto-1293996796-170667a.jpg');
+  /* background:url('../public/cherry1.jpg'); */
+  background-size: cover;
+  background-position: center;
+  /* color:white; */
+}
+/* .bg{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+} */
+.logo{
+  height: 100px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.hometitle{
+  margin: 180px auto 120px auto;
+}
+.myh1{
+  font-size: 50px;
+  font-family: 'Courgette', cursive;
+  display: inline-block;
+  /* margin: 80px auto; */
 }

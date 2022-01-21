@@ -1,7 +1,6 @@
-import MaterialTable from 'material-table'
+import MaterialTable from '@material-table/core'
 import React from 'react'
 import {useState, useEffect} from 'react'
-import { ExcelRenderer } from "react-excel-renderer"
 import {XLSX} from 'xlsx'
 
 const Order = () => {
@@ -88,8 +87,6 @@ const Order = () => {
         reader.readAsBinaryString(file)
       }
       else{
-        // setData(null)
-        // setColumns(null)
         alert('Invalid file!')
       }
     }
@@ -97,6 +94,21 @@ const Order = () => {
       setData()
       setColumns()
     }
+  }
+
+  const ExportExcel = () => {
+    let headers = []
+    columns.map((head, index) => {
+      headers[index] = head.title
+    })
+    console.log(headers)
+    XLSX = require('xlsx')
+    const ws = XLSX.utils.book_new()
+    XLSX.utils.sheet_add_aoa(ws, [headers])
+    XLSX.utils.sheet_add_json(ws, data, {origin:'A2', skipHeader: true})
+    const wb = {Sheets: {'data':ws}, SheetNames: ['data']}
+    XLSX.write(wb, {bookType: 'xlsx', type: 'binary'})
+    XLSX.writeFile(wb, 'data.xlsx')
   }
 
   return (
@@ -116,7 +128,10 @@ const Order = () => {
           fontSize: '8px',
           whiteSpace: 'nowarp',
         },
-        exportButton: true,
+        exportMenu: [{
+          label: 'Export to Excel',
+          exportFunc:() => ExportExcel()
+        }]
       }}
 
     />
