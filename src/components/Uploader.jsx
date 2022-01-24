@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useRef } from 'react'
 import axios from 'axios'
 export const Uploader = ({setImage}) => {
-  const [file, setFile] = useState()
-  let imageurl
+ 
+  const [file, setFile] = useState(undefined)
+  const [imgurl, setImgurl] =useState()
   const instance = axios.create({
     baseURL: 'http://206.189.39.185:5031'
   })
@@ -33,23 +35,22 @@ export const Uploader = ({setImage}) => {
     create('http://206.189.39.185:5031/api/Common/UploadImage', formdata)
     .then((response) => {
       console.log(response)
-      imageurl=response.data
-      setImage(imageurl)
+      setImgurl(response.data)
+      setImage(response.data)
     })
     .catch(error => {
-      // console.log(error)
     })
   }
   return (
-    imageurl?
-    <img style={{height:40, width:70}} src = {imageurl} />
-    // <input type = 'text' defaultValue={image} />
-    // defaultValue
+    imgurl?
+    <img style={{height:40, width:70}} src = {imgurl} />
     :
     <div>
-      <input type='file' name='file' id='file' style={{display: 'none'}} onChange={ e => chooseFile(e)} />
-      <label htmlFor='file'>Choose file</label>
-      <button onClick={uploadImage}>Upload</button>
+      <input type='file' name='file' id='file' value={file} style={{display: 'none'}} onChange={ e =>  chooseFile(e)} />
+      <label htmlFor='file'>
+        <button className='filebutton'>Choose</button>
+      </label>
+      <button className='filebutton' onClick={uploadImage}>Upload</button>
     </div>
   )
 }

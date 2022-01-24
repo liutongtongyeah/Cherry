@@ -47,7 +47,7 @@ const Login = () => {
         }
 
         navigate('/products', {replace:true})
-        window.location.reload()
+        // window.location.reload()
       }
       else{
         alert ('Wrong username or password!')

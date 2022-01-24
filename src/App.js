@@ -4,10 +4,11 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Order from './components/Order'
 import Home from './components/Home'
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
+import {Routes, Route, Navigate, useLocation} from 'react-router-dom'
 
 import {useEffect, useState} from 'react'
 function App() {
+  const location = useLocation()
   let user = null
   if(localStorage.getItem('user')){
     user = localStorage.getItem('user')
@@ -28,10 +29,8 @@ function App() {
     else if(sessionStorage.getItem('user')){
       user = sessionStorage.getItem('user')
     }
-  }, [])
+  }, [location.pathname])
   return (
-    <Router>
-      <div className='mybody'>
         <Routes>
           
           <Route exact path='/login' element = {
@@ -39,11 +38,11 @@ function App() {
               <Login />
             </>
           }/>
-          <Route exact path='/home' element = {
+          {/* <Route exact path='/home' element = {
             <>
               <Home />
             </>
-          }/>
+          }/> */}
           <Route exact path='/' element={
             <Home />
           }/>
@@ -65,8 +64,6 @@ function App() {
             <Home />
           } />
         </Routes>
-      </div>
-    </Router>
   );
 }
 

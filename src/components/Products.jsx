@@ -1,5 +1,4 @@
 import MaterialTable from '@material-table/core'
-import { Button, Tooltip } from '@material-ui/core'
 import {useState, useEffect} from 'react'
 import { Uploader } from './Uploader'
 import axios from 'axios'
@@ -119,10 +118,15 @@ const Products = () => {
     console.log(product.imageUrl)
     axios.post('http://206.189.39.185:5031/api/Product/ProductCreate', product)
     .then((response) => {
-      console.log(response)
-      const addedProduct = [...data, product]
-      setData(addedProduct)
+      axios.get('http://206.189.39.185:5031/api/Product')
+      .then((response) => {
+      setData(response.data.data)
       resolve()
+    })
+      // console.log(response)
+      // const addedProduct = [...data, product]
+      // setData(addedProduct)
+      // resolve()
     })
     .catch(error => {
       console.log(error)
