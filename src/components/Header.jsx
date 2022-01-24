@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
+
 const Header = () => {
   let currentuser
   if(localStorage.getItem('user')){
@@ -20,18 +21,18 @@ const Header = () => {
           <div className='collapse navbar-collapse'>
             <ul className='navbar-nav'>
               <li className='nav-item'>
-                <a className='my-nav-link' href='/products' role='button'>Products</a>
+                <Link to = '/products' className='my-nav-link' role='button'>Products</Link>
               </li>
               <li className='nav-item'>
-                <a className='my-nav-link' href='/Order' role='button'>Orderlist</a>
+                <Link to = '/order' className='my-nav-link' role='button'>Orderlist</Link>
               </li>
             </ul>
             <ul className='navbar-nav ms-auto'>
             `<li className='nav-item me-3'>
-                {currentuser ? <a className='my-nav-link' href='#' role='button'>{currentuser.userName}</a> : <a className='my-nav-link' href='#' role='button'>Login</a>}
+                {currentuser ? <a className='my-nav-link' href='#' role='button'>{currentuser.userName}</a> : <a className='my-nav-link' href='#' role='button'></a>}
               </li>
               <li className='nav-item me-3'>
-                <Link className='my-nav-link' to='/login' role='button' onClick={logout}>Logout</Link>
+                <Link className='my-nav-link' to='/Login' role='button' onClick={logout}>Logout</Link>
               </li>
             </ul>
           </div>

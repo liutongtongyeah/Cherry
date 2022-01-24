@@ -30,6 +30,13 @@ function App() {
       user = sessionStorage.getItem('user')
     }
   }, [location.pathname])
+  const Users = () => {
+    return(
+      <div>
+        <Header />
+      </div>
+    )
+  }
   return (
         <Routes>
           
@@ -38,12 +45,7 @@ function App() {
               <Login />
             </>
           }/>
-          {/* <Route exact path='/home' element = {
-            <>
-              <Home />
-            </>
-          }/> */}
-          <Route exact path='/' element={
+          <Route exact path='/' element={ 
             <Home />
           }/>
           <Route exact path = '/Register' element = {
@@ -56,7 +58,7 @@ function App() {
             </> : 
               <Home />
           } />
-          <Route path = '/Order' element = { user ?
+          <Route path = '/order' element = { user ?
             <>
               <Header />
               <Order />

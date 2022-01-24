@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { useRef } from 'react'
+import { Component } from 'react'
 import axios from 'axios'
 export const Uploader = ({setImage}) => {
- 
+  
   const [file, setFile] = useState(undefined)
   const [imgurl, setImgurl] =useState()
   const instance = axios.create({
@@ -46,7 +47,7 @@ export const Uploader = ({setImage}) => {
     <img style={{height:40, width:70}} src = {imgurl} />
     :
     <div>
-      <input type='file' name='file' id='file' value={file} style={{display: 'none'}} onChange={ e =>  chooseFile(e)} />
+      <input type='file' name='file' id='file' style={{display: 'none'}} onChange={ e =>  chooseFile(e)} />
       <label htmlFor='file'>
         <button className='filebutton'>Choose</button>
       </label>

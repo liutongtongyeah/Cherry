@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 
 const Home = () => {
+  const user = localStorage.getItem('user') || sessionStorage.getItem('user')
+  console.log(user)
   return (
     <div className='home'>
       <div className='bg'>
