@@ -10,7 +10,8 @@ const Home = () => {
           <img src = 'cherry3.png' className='logo' />
           <h1 className='myh1'>Welcome to Cherry NZ</h1>
         </div>
-        <Link to='/Login' className='btn' type='button'>Get started</Link>
+        {user ? <Link to='/products' className='btn' type='button'>Get started</Link> : <Link to='/Login' className='btn' type='button'>Get started</Link>}
+        
       </div>
     </div>
   )

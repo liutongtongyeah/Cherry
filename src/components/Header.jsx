@@ -17,7 +17,7 @@ const Header = () => {
     <div>
       <nav className='navbar navbar-expand-sm navbar-bg'>
         <div className='container-fluid'>
-          <a className='my-navbar-brand' href='#'>Cherry NZ</a>
+          <p className='my-navbar-brand'>Cherry NZ</p>
           <div className='collapse navbar-collapse'>
             <ul className='navbar-nav'>
               <li className='nav-item'>
@@ -28,11 +28,12 @@ const Header = () => {
               </li>
             </ul>
             <ul className='navbar-nav ms-auto'>
-            `<li className='nav-item me-3'>
-                {currentuser ? <a className='my-nav-link' href='#' role='button'>{currentuser.userName}</a> : <a className='my-nav-link' href='#' role='button'></a>}
+              <li className='nav-item me-3'>
+                <p className='user'>{currentuser.userName}</p>
+                {/* {currentuser ? <a className='my-nav-link' href='#' role='button'>{currentuser.userName}</a> : <a className='my-nav-link' href='#' role='button'></a>} */}
               </li>
               <li className='nav-item me-3'>
-                <Link className='my-nav-link' to='/Login' role='button' onClick={logout}>Logout</Link>
+                <Link className='my-nav-link' to='/' role='button' onClick={logout}>Logout</Link>
               </li>
             </ul>
           </div>

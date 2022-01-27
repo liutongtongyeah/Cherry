@@ -2,6 +2,7 @@ import MaterialTable from '@material-table/core'
 import React from 'react'
 import {useState, useEffect} from 'react'
 import {XLSX} from 'xlsx'
+import { get } from './Service'
 
 const Order = () => {
   let currentuser
@@ -9,49 +10,45 @@ const Order = () => {
     currentuser = JSON.parse(sessionStorage.user)
   }
   const [columns, setColumns] = useState([
-    {title: 'User Id', field: 'userId', type: 'numeric'},
-    {title: "Product Id", field: "productId", type: "numeric"},
-    { title: "QTY Rate", field: "qty", type: "numeric" },
-    { title: "Batch Id", field: "batchId" },
-    { title: "Price Id", field: "price", type: "numeric" },
-    { title: "Unit Price Rate", field: "unitPrice", type: "numeric" },
-    { title: "Po Number", field: "poNumber" },
-    { title: "Recipient", field: "recipient" },
-    { title: "Recipient Country", field: "recipientCountry" },
-    { title: "Recipient Provience", field: "recipientProvience" },
-    { title: "recipient City", field: "recipientCity" },
-    { title: "Recipient Addr", field: "recipientAddr" },
-    { title: "Recipient Number", field: "recipientNumber" },
-    { title: "Sender City", field: "senderCity" },
-    { title: "Sender Addr", field: "senderAddr" },
-    { title: "Sender Country", field: "senderCountry" },
-    { title: "Sender Number", field: "senderNumber" },
-    { title: "Sender Name", field: "senderName" },
-    { title: "Status", field: "status", type: "numeric" },
-    { title: "Track No", field: "trackNo" },
-    { title: "Billing Company", field: "billingCompany" },
-    { title: "Customer Reference No", field: "customerReferenceNo" },
-    { title: "Sender Company Name", field: "senderCompanyName" },
-    { title: "Payment Method", field: "paymentMethod" },
+    {title: 'User Id', field: 'userId', type: 'numeric', align: 'left', width: '100px' },
+    {title: "Product Id", field: "productId", type: "numeric", align: 'left', width: '120px'},
+    { title: "QTY Rate", field: "qty", type: "numeric", align: 'left', width: '120px'},
+    // { title: "Batch Id", field: "batchId" },
+    { title: "Price Id", field: "price", type: "numeric", align: 'left', width: '100px', },
+    // { title: "Unit Price Rate", field: "unitPrice", type: "numeric" },
+    // { title: "Po Number", field: "poNumber" },
+    { title: "Recipient", field: "recipient", align: 'left', width:'100px' },
+    // { title: "Recipient Country", field: "recipientCountry" },
+    { title: "Recipient Provience", field: "recipientProvience", align: 'left', width: '150px'},
+    { title: "recipient City", field: "recipientCity", align: 'left', width: '120px' },
+    { title: "Recipient Addr", field: "recipientAddr", align: 'left', width: '200px' },
+    { title: "Recipient Number", field: "recipientNumber", align: 'left', width: '120px' },
+    { title: "Sender City", field: "senderCity", align: 'left', width: '180px' },
+    { title: "Sender Addr", field: "senderAddr", align: 'left', width: '180px' },
+    // { title: "Sender Country", field: "senderCountry" },
+    { title: "Sender Number", field: "senderNumber", align: 'left', width: '120px' },
+    { title: "Sender Name", field: "senderName", align: 'left', width: '100px' },
+    { title: "Status", field: "status", type: "numeric", align: 'left', width:'100px' },
+    { title: "Track No", field: "trackNo", align: 'left', width: '150px' },
+    // { title: "Billing Company", field: "billingCompany" },
+    // { title: "Customer Reference No", field: "customerReferenceNo", align: 'left', width:'100px' },
+    { title: "Sender Company Name", field: "senderCompanyName", align: 'left', width:'150px' },
+    // { title: "Payment Method", field: "paymentMethod" },
   ])
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true
-    const getData = async () => {
-      const tasksFromServer = await fetchData()
-      setData(tasksFromServer)
-      setIsLoading(false)
-    }
-    getData()
-    return () => isMounted =false;
+      get('http://206.189.39.185:5031/api/Order/GetOrderList/userId/status')
+      .then((response) => {
+        setData(response.data.data)
+        setIsLoading(false)
+      })
+
+    return () => isMounted =false
   },[])
-  const fetchData = async() => {
-    const res = await fetch('http://206.189.39.185:5031/api/Order/GetOrderList/userId/status')
-    const data = await res.json()
-    return data.data
-  }
+
   const converData = (header, data) => {
     data.splice(0, 1)
     const rows = []
@@ -95,13 +92,12 @@ const Order = () => {
       setColumns()
     }
   }
-
+  
   const ExportExcel = () => {
     let headers = []
     columns.map((head, index) => {
       headers[index] = head.title
     })
-    console.log(headers)
     XLSX = require('xlsx')
     const ws = XLSX.utils.book_new()
     XLSX.utils.sheet_add_aoa(ws, [headers])
@@ -120,6 +116,7 @@ const Order = () => {
       columns={columns}
       data={data}
       options={{
+        tableLayout: 'fixed',
         rowStyle: {
           fontSize: '8px',
           whiteSpace: 'nowarp'

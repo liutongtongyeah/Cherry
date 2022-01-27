@@ -1,23 +1,10 @@
 import MaterialTable from '@material-table/core'
 import {useState, useEffect} from 'react'
 import { Uploader } from './Uploader'
-import axios from 'axios'
+import { get, post, put, remove, getUrl } from './Service'
 
 const Products = () => {
-    const getUrl = (imageUrl) => {
-    var url = null
-    if(imageUrl !== null){
-      const url1 = imageUrl.split('"url":')[1]
-      if(url1){
-        url = url1.split('"')[1]
-      }
-        
-    }
-    else{
-      url = null
-    }
-    return url
-  }
+
   let currentuser
   if(localStorage.getItem('user')){
     currentuser = JSON.parse(localStorage.user)
@@ -32,13 +19,14 @@ const Products = () => {
   // let image
   const [data, setData] = useState([])
   useEffect(() => {
-    axios.get('http://206.189.39.185:5031/api/Product')
+    // axios.
+    get('http://206.189.39.185:5031/api/Product')
     .then((response) => {
       setData(response.data.data)
     })
 
   },[])
-  const [image, setImage] = useState()
+
   const [columns, setColumns] = useState([
   {
     title: 'Product Image', field: 'imageUrl', 
@@ -48,9 +36,9 @@ const Products = () => {
           src={getUrl(rowData.imageUrl)}
         />
       ),
-      editComponent: props => {
+      editComponent: rowData => {
         
-        return(<Uploader setImage={setImage} />)
+        return(<Uploader rowData={rowData} />)
         }
       
     },
@@ -65,15 +53,11 @@ const Products = () => {
     {title: 'Special Price(CNY)', field: 'priceSpecial', type: 'numeric', align: 'left'},
     {title: 'Weight(KG)', field: 'weight', type: 'numeric', align: 'left'},
     {title: 'Package QTY', field: 'packageQty', type: 'numeric', align: 'left'},
-    {title: 'ProductId', field: 'productId', type: 'numeric', align: 'left'},
+    // {title: 'ProductId', field: 'productId', type: 'numeric', align: 'left'},
   ])
 
 
   const addProduct = (newData, resolve, reject) => {
-    console.log(image)
-    if(!newData.productId){
-      newData.productId = 0
-    }
     if(!newData.productName){
       newData.productName = null
     }
@@ -112,13 +96,17 @@ const Products = () => {
       "desciption": newData.desciption,
       "weight": parseInt(newData.weight),
       "packageQty": parseInt(newData.packageQty),
-      "productId": parseInt(newData.productId),
-      "imageUrl": `{"url":"${image}"}`
+      // "productId": parseInt(newData.productId),
+      "imageUrl": newData.imageUrl
     }
+
     console.log(product.imageUrl)
-    axios.post('http://206.189.39.185:5031/api/Product/ProductCreate', product)
+    // axios.
+    post('http://206.189.39.185:5031/api/Product/ProductCreate', product)
+
     .then((response) => {
-      axios.get('http://206.189.39.185:5031/api/Product')
+      // axios.
+      get('http://206.189.39.185:5031/api/Product')
       .then((response) => {
       setData(response.data.data)
       resolve()
@@ -134,10 +122,7 @@ const Products = () => {
     })
   }
   const updateProduct = (newData, oldData, resolve) => {
-    if(image) {
-      newData.imageUrl=`{"url":"${image}"}`
-    }
-    axios.put('http://206.189.39.185:5031/api/Product/ProductUpdate', newData)
+    put('http://206.189.39.185:5031/api/Product/ProductUpdate', newData)
     .then((response) => {
       const id = oldData.productId
       setData(data.map((product) => product.productId == id? newData : product))
@@ -152,7 +137,8 @@ const Products = () => {
 
   const deleteProduct = async(oldData, resolve) => {
     const id = oldData.productId
-    axios.delete(`http://206.189.39.185:5031/api/Product/${id}`)
+    // axios.
+    remove(`http://206.189.39.185:5031/api/Product/${id}`)
     .then((response) => {
       setData(data.filter((product) => product.productId !== id))
       resolve()
