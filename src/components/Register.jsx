@@ -23,7 +23,8 @@ const Register = () => {
       navigate('/login')
     })
     .catch(error => {
-      alert('error')
+      alert('Signup failed')
+      window.location.reload()
     })
   }
 
