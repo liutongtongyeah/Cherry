@@ -1,22 +1,10 @@
-import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { post, get } from './Service'
 const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const userLogin = async (user) => {
-   const res = await fetch('http://206.189.39.185:5031/api/User/UserLogin', {
-      method: 'Post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user),
-    })
-    const data = res.json()
-    return data
-  }
-
   let check = false
   const handleCheckbox = (event) =>{
     if(event.target.checked){
@@ -31,28 +19,28 @@ const Login = () => {
     const data = new FormData(event.target)
     const username = data.get('name')
     const password = data.get('password')
-    userLogin({username, password})
+    post('http://206.189.39.185:5031/api/User/UserLogin', {username, password})
     .then((response) => {
-      console.log(response)
-      if(response.data && response.data.token){
+      console.log(response.data.data)
+      if(response.data.data && response.data.data.token){
         if(check){
           const date = new Date()
           const expiryDate = date.getTime() + 7 * 24 * 60 * 60 * 1000
           localStorage.setItem('date', JSON.stringify(expiryDate))
-          localStorage.setItem('user', JSON.stringify(response.data))
-          sessionStorage.setItem('user', JSON.stringify(response.data))
+          localStorage.setItem('user', JSON.stringify(response.data.data))
+          sessionStorage.setItem('user', JSON.stringify(response.data.data))
         }
         else{
-          sessionStorage.setItem('user', JSON.stringify(response.data))
+          sessionStorage.setItem('user', JSON.stringify(response.data.data))
         }
 
         navigate('/products', {replace:true})
-        // window.location.reload()
-      }
-      else{
-        alert ('Wrong username or password!')
       }
     })
+    .catch(error => {
+      alert ('Wrong username or password!')
+    })
+
   }
 
   return (

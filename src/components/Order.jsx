@@ -13,31 +13,22 @@ const Order = () => {
     {title: 'User Id', field: 'userId', type: 'numeric', align: 'left', width: '100px' },
     {title: "Product Id", field: "productId", type: "numeric", align: 'left', width: '120px'},
     { title: "QTY Rate", field: "qty", type: "numeric", align: 'left', width: '120px'},
-    // { title: "Batch Id", field: "batchId" },
     { title: "Price Id", field: "price", type: "numeric", align: 'left', width: '100px', },
-    // { title: "Unit Price Rate", field: "unitPrice", type: "numeric" },
-    // { title: "Po Number", field: "poNumber" },
     { title: "Recipient", field: "recipient", align: 'left', width:'100px' },
-    // { title: "Recipient Country", field: "recipientCountry" },
     { title: "Recipient Provience", field: "recipientProvience", align: 'left', width: '150px'},
     { title: "recipient City", field: "recipientCity", align: 'left', width: '120px' },
     { title: "Recipient Addr", field: "recipientAddr", align: 'left', width: '200px' },
     { title: "Recipient Number", field: "recipientNumber", align: 'left', width: '120px' },
     { title: "Sender City", field: "senderCity", align: 'left', width: '180px' },
     { title: "Sender Addr", field: "senderAddr", align: 'left', width: '180px' },
-    // { title: "Sender Country", field: "senderCountry" },
     { title: "Sender Number", field: "senderNumber", align: 'left', width: '120px' },
     { title: "Sender Name", field: "senderName", align: 'left', width: '100px' },
     { title: "Status", field: "status", type: "numeric", align: 'left', width:'100px' },
     { title: "Track No", field: "trackNo", align: 'left', width: '150px' },
-    // { title: "Billing Company", field: "billingCompany" },
-    // { title: "Customer Reference No", field: "customerReferenceNo", align: 'left', width:'100px' },
     { title: "Sender Company Name", field: "senderCompanyName", align: 'left', width:'150px' },
-    // { title: "Payment Method", field: "paymentMethod" },
   ])
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
     let isMounted = true
       get('http://206.189.39.185:5031/api/Order/GetOrderList/userId/status')
@@ -92,7 +83,6 @@ const Order = () => {
       setColumns()
     }
   }
-  
   const ExportExcel = () => {
     let headers = []
     columns.map((head, index) => {

@@ -1,11 +1,23 @@
 import axios from 'axios'
 
+const baseurl = process.env.REACT_APP_BASE_URL
+console.log(baseurl)
 const instance = axios.create({
-  baseURL: 'http://206.189.39.185:5031',
-  // timeout: 1000,
+  baseURL: baseurl,
   headers: {'Content-Type': 'application/json'}
 })
-
+let currentuser
+if(localStorage.getItem('user')){
+  currentuser = localStorage.getItem('user')
+}
+else if(sessionStorage.getItem('user')){
+  currentuser = sessionStorage.getItem('user')
+}
+instance.interceptors.request.use(request => {
+  if(currentuser)
+  { request.headers.common.Authorization = `Bearer ${currentuser}` }
+  return request
+})
 export const get = (url, data) => {
   return new Promise((resolve, reject) => {
     instance({

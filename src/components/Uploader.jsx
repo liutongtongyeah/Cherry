@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { post, getUrl } from './Service'
+import { useRef } from 'react'
+// import { Button, Input } from ''
 export const Uploader = ({rowData}) => {
+  // const inputref= useRef()
+  // inputref.current.value = ''
   console.log(rowData)
-  const [file, setFile] = useState()
+  const [file, setFile] = useState('')
   const [imgurl, setImgurl] =useState()
-
+  // useEffect(() => {
+  //   if(file === '') {
+  //     inputref.current.value = ''
+  //   }
+  //   else {
+  //     inputref.current.files = file
+  //   }
+  // }, [file])
   const chooseFile = (e) => {
     e.preventDefault()
     setFile(e.target.files[0])
@@ -28,25 +39,32 @@ export const Uploader = ({rowData}) => {
   return (
     rowData.rowData.imageUrl?
     <div>
-        <img style={{height:40, width:70}} src = {getUrl(rowData.rowData.imageUrl)} />
+      <img style={{height:40, width:70}} src = {getUrl(rowData.rowData.imageUrl)} />
       <div className='mt-1'>
-        <input type='file' name='file' id='file' onChange={ (e) =>  chooseFile(e)} />
-        <button className='filebutton' onClick={uploadImage}>Upload</button>
+        <form>
+          <input type='file' name='file' id='file' onChange={ (e) => chooseFile(e)} />
+        
+          <button className='filebutton' onClick={uploadImage}>Upload</button>
+        </form>
       </div>
     </div>
     :
     imgurl?
     <div>
       <img style={{height:40, width:70}} src = {imgurl} />
-      <div>
-        <input type='file' name='file' id='file' onChange={ (e) =>  chooseFile(e)} />
-        <button className='filebutton' onClick={uploadImage}>Upload</button>
+      <div className='mt-1'>
+        <form>
+          <input type='file' name='file' id='file' onChange={ (e) => chooseFile(e)} />
+          <button className='filebutton' onClick={uploadImage}>Upload</button>
+        </form>
+      </div>
     </div>
-  </div>
     :
     <div className='mt-1'>
-      <input type='file' name='file' id='file'  onChange={ (e) =>  chooseFile(e)} />
-      <button className='filebutton' onClick={uploadImage}>Upload</button>
+      <form>
+        <input type='file' name='file' id='file' onChange={ (e) => chooseFile(e)} />
+        <button className='filebutton' onClick={uploadImage}>Upload</button>
+      </form>  
     </div>
   )
 }

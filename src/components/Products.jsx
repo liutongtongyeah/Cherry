@@ -16,10 +16,8 @@ const Products = () => {
     currentuser = null
   }
   console.log(currentuser)
-  // let image
   const [data, setData] = useState([])
   useEffect(() => {
-    // axios.
     get('http://206.189.39.185:5031/api/Product')
     .then((response) => {
       setData(response.data.data)
@@ -43,9 +41,13 @@ const Products = () => {
       
     },
   {
-    title: 'Product Name', field: 'productName', initialEditValue:'cherry'
+    title: 'Product Name', field: 'productName', initialEditValue:'cherry', validate: rowData => rowData.productName !== '' 
     },
-    {title: 'Product Code', field: 'productCode'},
+    {title: 'Product Code', field: 'productCode',initialEditValue:'' ,
+      editComponent: props => (
+        <input type='text' value={props.value || ''}  onChange={e => props.onChange(e.target.value)}/>
+      )
+    },
     {title: 'RRP Price(CNY)', field: 'priceRrp', type: 'numeric', align: 'left'},
     {title: 'Shopify Price(CNY)', field: 'priceShopify', type: 'numeric', align: 'left'},
     {title: 'Agent Price(CNY)', field: 'priceAgent', type: 'numeric', align: 'left'},
@@ -53,14 +55,10 @@ const Products = () => {
     {title: 'Special Price(CNY)', field: 'priceSpecial', type: 'numeric', align: 'left'},
     {title: 'Weight(KG)', field: 'weight', type: 'numeric', align: 'left'},
     {title: 'Package QTY', field: 'packageQty', type: 'numeric', align: 'left'},
-    // {title: 'ProductId', field: 'productId', type: 'numeric', align: 'left'},
   ])
 
 
   const addProduct = (newData, resolve, reject) => {
-    if(!newData.productName){
-      newData.productName = null
-    }
     if(!newData.priceRrp){
       newData.priceRrp = 0
     }
@@ -88,6 +86,7 @@ const Products = () => {
 
     const product = {
       "productName": newData.productName,
+      "productCode": newData.productCode,
       "priceRrp": parseInt(newData.priceRrp),
       "priceShopify": parseInt(newData.priceShopify),
       "priceAgent": parseInt(newData.priceAgent),
@@ -96,25 +95,19 @@ const Products = () => {
       "desciption": newData.desciption,
       "weight": parseInt(newData.weight),
       "packageQty": parseInt(newData.packageQty),
-      // "productId": parseInt(newData.productId),
       "imageUrl": newData.imageUrl
     }
 
-    console.log(product.imageUrl)
-    // axios.
+    console.log(product.imageUrl)    
     post('http://206.189.39.185:5031/api/Product/ProductCreate', product)
 
     .then((response) => {
-      // axios.
       get('http://206.189.39.185:5031/api/Product')
       .then((response) => {
       setData(response.data.data)
       resolve()
     })
-      // console.log(response)
-      // const addedProduct = [...data, product]
-      // setData(addedProduct)
-      // resolve()
+ 
     })
     .catch(error => {
       console.log(error)
@@ -137,10 +130,12 @@ const Products = () => {
 
   const deleteProduct = async(oldData, resolve) => {
     const id = oldData.productId
-    // axios.
     remove(`http://206.189.39.185:5031/api/Product/${id}`)
     .then((response) => {
-      setData(data.filter((product) => product.productId !== id))
+      const datadelete = [...data]
+      const index = oldData.tableData.id
+      datadelete.splice(index,1)
+      setData([...datadelete])
       resolve()
     })
     .catch((error) => {
@@ -168,17 +163,20 @@ const Products = () => {
 
       editable={{
         onRowAdd: newData =>
-          new Promise((resolve, reject) => {
-            addProduct(newData, resolve, reject)
+          new Promise((resolve) => {
+            addProduct(newData, resolve)
           }),
         onRowUpdate: (newData, oldData) =>
-          new Promise((resolve, reject) => {
+          new Promise((resolve) => {
             updateProduct(newData, oldData, resolve)
           }),
         onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            deleteProduct(oldData, resolve)
-          }),
+          new Promise((resolve) => {
+            setTimeout(() => {
+              deleteProduct(oldData, resolve)
+            })
+            
+          },1000),
       }}
     />
   )

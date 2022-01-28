@@ -1,9 +1,13 @@
-import { Link } from "react-router-dom"
-import { useState } from "react"
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { post } from './Service'
+import { useNavigate } from 'react-router-dom'
+
 const Register = () => {
   const [userName, setUsername] = useState([])
   const [email, setEmail] = useState([])
   const [password, setPassword] = useState([])
+  const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.target)
@@ -13,16 +17,16 @@ const Register = () => {
     setUsername(name)
     setEmail(Email)
     setPassword(pwd)
-    create({userName, email, password})
-  }
-  const create = async (user) => {
-    console.log(user)
-    const res = await fetch('http://206.189.39.185:5031/api/User/UserRegister', {
-      method: 'Post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user),
+    post('http://206.189.39.185:5031/api/User/UserRegister', {userName, email, password})
+    .then(response => {
+      alert('Signup successful')
+      navigate('/login')
+    })
+    .catch(error => {
+      alert('error')
     })
   }
+
   return(
     <div className='myLogin'>
       <div className='mycontainer'>
